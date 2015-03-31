@@ -1,0 +1,28 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="now-icons.html">
+<link rel="import" href="../core-icon/core-icon.html">
+<link rel="import" href="../core-icons/core-icons.html">
+
+<dom-module id="at-carbon-icon">
+  <template>
+    <core-icon icon="{{icon}}"></core-icon>    
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'at-carbon-icon',
+    properties: {
+      src: {
+        type: String,
+        value: ''
+      },
+      icon: {
+        type: String,
+        value: ''
+      }
+    }
+  });
+</script>
+
+
