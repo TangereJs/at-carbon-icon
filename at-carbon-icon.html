@@ -4,8 +4,20 @@
 <link rel="import" href="now-icons.html">
 
 <dom-module id="at-carbon-icon">
+  <style>
+    :host {
+      display: inline-flex;
+      position: relative;
+      fill: currentcolor;
+      vertical-align: middle;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+  </style>
   <template>
-    <core-icon icon="{{icon}}"></core-icon>    
+    <core-icon icon="{{icon}}"></core-icon>
   </template>
 </dom-module>
 
@@ -15,11 +27,13 @@
     properties: {
       src: {
         type: String,
-        value: ''
+        value: '',
+        notify: true
       },
       icon: {
         type: String,
-        value: ''
+        value: '',
+        notify: true
       }
     }
   });
