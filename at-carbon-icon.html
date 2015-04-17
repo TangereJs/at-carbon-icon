@@ -1,7 +1,9 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../core-icon/core-icon.html">
 <link rel="import" href="../core-icons/core-icons.html">
+<link rel="import" href="../core-meta/core-meta.html">
 <link rel="import" href="now-icons.html">
+
 
 <dom-module id="at-carbon-icon">
   <style>
@@ -15,27 +17,125 @@
       width: 24px;
       height: 24px;
     }
+    div {
+      display: block;
+      position: relative;
+    }
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    img {
+      width: 100%;
+    }
   </style>
   <template>
-    <core-icon icon="{{icon}}"></core-icon>
+    <core-meta id="meta" type="iconset"></core-meta>
+    <content></content>
   </template>
 </dom-module>
 
 <script>
-  Polymer({
-    is: 'at-carbon-icon',
-    properties: {
-      src: {
-        type: String,
-        value: '',
-        notify: true
-      },
-      icon: {
-        type: String,
-        value: '',
-        notify: true
-      }
-    }
-  });
-</script>
+  (function () {
+    var DEFAULT_ICONSET = 'icons'
 
+    Polymer({
+      is: 'at-carbon-icon',
+      _scopeCssViaAttr: true,
+      properties: {
+        src: {
+          type: String,
+          value: '',
+          observer: 'srcChanged'
+        },
+
+        icon: {
+          type: String,
+          value: '',
+          observer: 'updateIcon'
+        },
+
+        theme: {
+          type: String,
+          value: '',
+          observer: 'updateIcon'
+        },
+
+        srcImgElement: {
+          value: null
+        },
+
+        iconset: {
+          value: ''
+        }
+      },
+
+      get meta() {
+        return this.$.meta;
+      },
+
+      get iconsetElement() {
+        var iconsetElement;
+
+        if (this.icon) {
+          iconsetElement = this.meta.byKey(
+            this.computeIconset(this.icon)
+          );
+        }
+
+        return iconsetElement;
+      },
+
+      get iconName() {
+        if (this.icon) {
+          return this.icon.split(':').pop();
+        }
+
+        return '';
+      },
+
+      get usesSrcAttribute() {
+        return !this.icon && this.src;
+      },
+
+      computeIconset: function (icon) {
+        var iconset;
+
+        if (icon && icon.indexOf(':') > -1) {
+          iconset = icon.split(':').shift();
+        }
+
+        return iconset || DEFAULT_ICONSET;
+      },
+
+      updateIcon: function () {
+        if (this.usesSrcAttribute) {
+          return;
+        }
+
+        this.iconset = this.computeIconset(this.icon);
+        if (this.iconsetElement) this.iconsetElement.applyIcon(this.root, this.iconName, this.theme);
+      },
+
+      srcChanged: function () {
+        var currentIconChild;
+
+        if (!this.usesSrcAttribute) {
+          return;
+        }
+
+        if (currentIconChild = Polymer.dom(this.root).querySelector('div')) {
+          Polymer.dom(this.root).removeChild(currentIconChild);
+        }
+
+        if (!this.srcImgElement) {
+          this.srcImgElement = document.createElement('img');
+        }
+
+        this.srcImgElement.src = this.src;
+        Polymer.dom(this.root).appendChild(this.srcImgElement);
+      }
+    });
+  })();
+</script>
