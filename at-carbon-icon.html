@@ -1,7 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
-<link rel="import" href="../core-icon/core-icon.html">
-<link rel="import" href="../core-icons/core-icons.html">
-<link rel="import" href="../core-meta/core-meta.html">
+<link rel="import" href="../iron-meta/iron-meta.html">
+<link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="now-icons.html">
 
 
@@ -31,14 +30,14 @@
     }
   </style>
   <template>
-    <core-meta id="meta" type="iconset"></core-meta>
+    <iron-meta id="meta" type="iconset"></iron-meta>
     <content></content>
   </template>
 </dom-module>
 
 <script>
   (function () {
-    var DEFAULT_ICONSET = 'icons'
+    var DEFAULT_ICONSET = 'now'
 
     Polymer({
       is: 'at-carbon-icon',

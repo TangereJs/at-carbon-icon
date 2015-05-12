@@ -1,0 +1,14 @@
+{
+  "name": "at-carbon-icon",
+  "main": "now-icons.html",
+  "private": true,
+  "version": "1.0.0.1",
+  "dependencies": {
+    "iron-iconset-svg": "polymerelements/iron-iconset-svg#master",
+    "iron-meta": "polymerelements/iron-meta#master"
+  },
+  "resolutions": {
+    "iron-meta": "^0.9.0",
+    "iron-iconset-svg": "master"
+  }
+}
