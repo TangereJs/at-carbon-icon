@@ -2,7 +2,7 @@
   "name": "at-carbon-icon",
   "main": "now-icons.html",
   "private": true,
-  "version": "1.0.0.1",
+  "version": "1.0.0.4",
   "dependencies": {
     "iron-iconset-svg": "polymerelements/iron-iconset-svg#master",
     "iron-meta": "polymerelements/iron-meta#master"
