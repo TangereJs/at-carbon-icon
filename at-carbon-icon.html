@@ -14,21 +14,23 @@
       width: 24px;
       height: 24px;
     }
+
     div {
       display: block;
       position: relative;
     }
+
     svg {
       display: block;
       width: 24px;
       height: 24px;
     }
+
     img {
       width: 100%;
     }
   </style>
   <template>
-    <iron-meta id="meta" type="iconset"></iron-meta>
     <content></content>
   </template>
 </dom-module>
@@ -41,6 +43,11 @@
       is: 'at-carbon-icon',
       _scopeCssViaAttr: true,
       properties: {
+        
+        _meta: {
+          value: Polymer.Base.create('iron-meta', { type: 'iconset' })
+        },
+		  
         src: {
           type: String,
           value: '',
@@ -66,17 +73,14 @@
         iconset: {
           value: ''
         }
-      },
 
-      get meta() {
-        return this.$.meta;
       },
 
       get iconsetElement() {
         var iconsetElement;
 
         if (this.icon) {
-          iconsetElement = this.meta.byKey(
+          iconsetElement = this._meta.byKey(
             this.computeIconset(this.icon)
           );
         }
