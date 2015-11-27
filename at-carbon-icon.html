@@ -36,45 +36,33 @@
 </dom-module>
 
 <script>
-  (function () {
+  (function() {
+    "use strict";
     var DEFAULT_ICONSET = 'now'
 
     Polymer({
       is: 'at-carbon-icon',
       _scopeCssViaAttr: true,
       properties: {
-        
-        _meta: {
-          value: Polymer.Base.create('iron-meta', { type: 'iconset' })
-        },
-		  
         src: {
           type: String,
           value: '',
           observer: 'srcChanged'
         },
-
         icon: {
           type: String,
           value: '',
           observer: 'updateIcon'
         },
-
         theme: {
           type: String,
           value: '',
           observer: 'updateIcon'
-        },
-
-        srcImgElement: {
-          value: null
-        },
-
-        iconset: {
-          value: ''
         }
-
       },
+      _meta: Polymer.Base.create('iron-meta', { type: 'iconset' }),
+      srcImgElement: null,
+      iconset: '',
 
       get iconsetElement() {
         var iconsetElement;
@@ -100,7 +88,7 @@
         return !this.icon && this.src;
       },
 
-      computeIconset: function (icon) {
+      computeIconset: function(icon) {
         var iconset;
 
         if (icon && icon.indexOf(':') > -1) {
@@ -110,7 +98,7 @@
         return iconset || DEFAULT_ICONSET;
       },
 
-      updateIcon: function () {
+      updateIcon: function() {
         if (this.usesSrcAttribute) {
           return;
         }
@@ -119,7 +107,7 @@
         if (this.iconsetElement) this.iconsetElement.applyIcon(this.root, this.iconName, this.theme);
       },
 
-      srcChanged: function () {
+      srcChanged: function() {
         var currentIconChild;
 
         if (!this.usesSrcAttribute) {
