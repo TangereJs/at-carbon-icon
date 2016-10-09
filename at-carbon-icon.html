@@ -3,34 +3,36 @@
 <link rel="import" href="now-icons.html">
 
 <dom-module id="at-carbon-icon">
-  <style>
-    :host {
-      display: inline-block;
-      position: relative;
-      fill: currentcolor;
-      vertical-align: middle;
-      align-items: center;
-      justify-content: center;
-      width: 24px;
-      height: 24px;
-    }
 
-    div {
-      display: block;
-      position: relative;
-    }
-
-    svg {
-      display: block;
-      width: 24px;
-      height: 24px;
-    }
-
-    img {
-      width: 100%;
-    }
-  </style>
   <template>
+    <style>
+      :host {
+        display: inline-block;
+        position: relative;
+        fill: currentcolor;
+        vertical-align: middle;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+      }
+
+      div {
+        display: block;
+        position: relative;
+      }
+
+      svg {
+        display: block;
+        width: 24px;
+        height: 24px;
+      }
+
+      img {
+        width: 100%;
+      }
+    </style>
+
     <content></content>
   </template>
 </dom-module>
@@ -41,8 +43,7 @@
     var DEFAULT_ICONSET = 'now'
 
     Polymer({
-      is: 'at-carbon-icon',
-      _scopeCssViaAttr: true,
+      is: 'at-carbon-icon',      
       properties: {
         src: {
           type: String,
