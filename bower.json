@@ -4,8 +4,8 @@
   "private": true,
   "version": "1.0.1.2",
   "dependencies": {
-    "tangere": "TangereJs/tangere#0.8-preview",
-    "at-doc-viewer": "TangereJs/at-doc-viewer#0.8-preview",
+    "tangere": "TangereJs/tangere#master",
+    "at-doc-viewer": "TangereJs/at-doc-viewer#master",
     "iron-meta": "polymerelements/iron-meta#master",
     "iron-icon": "PolymerElements/iron-icon#master",
     "iron-iconset-svg": "polymerelements/iron-iconset-svg#master",
