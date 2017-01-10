@@ -4,7 +4,12 @@
   "private": true,
   "version": "1.0.1.2",
   "dependencies": {
+    "tangere": "TangereJs/tangere#0.8-preview",
+    "at-doc-viewer": "TangereJs/at-doc-viewer#0.8-preview",
+    "iron-meta": "polymerelements/iron-meta#master",
+    "iron-icon": "PolymerElements/iron-icon#master",
     "iron-iconset-svg": "polymerelements/iron-iconset-svg#master",
-    "iron-meta": "polymerelements/iron-meta#master"
+    "paper-styles": "PolymerElements/paper-styles#master",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#master"
   }
 }
