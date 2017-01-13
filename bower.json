@@ -9,7 +9,7 @@
     "iron-meta": "polymerelements/iron-meta#master",
     "iron-icon": "PolymerElements/iron-icon#master",
     "iron-iconset-svg": "polymerelements/iron-iconset-svg#master",
-    "paper-styles": "PolymerElements/paper-styles#master",
+    "paper-styles": "TangereJs/paper-styles#master",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#master"
   }
 }
