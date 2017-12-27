@@ -65,21 +65,21 @@
       srcImgElement: null,
       iconset: '',
 
-      get iconsetElement() {
+      _getIconsetElement: function(icon) {
         var iconsetElement;
 
-        if (this.icon) {
+        if (icon) {
           iconsetElement = this._meta.byKey(
-            this.computeIconset(this.icon)
+            this.computeIconset(icon)
           );
         }
 
         return iconsetElement;
       },
 
-      get iconName() {
-        if (this.icon) {
-          return this.icon.split(':').pop();
+      _getIconName: function(icon) {
+        if (icon) {
+          return icon.split(':').pop();
         }
 
         return '';
@@ -99,13 +99,24 @@
         return iconset || DEFAULT_ICONSET;
       },
 
+      _isString: function(obj) {
+        return Object.prototype.toString.apply(obj) === "[object String]";
+      },
+
       updateIcon: function() {
         if (this.usesSrcAttribute) {
           return;
         }
 
-        this.iconset = this.computeIconset(this.icon);
-        if (this.iconsetElement) this.iconsetElement.applyIcon(this.root, this.iconName, this.theme);
+        // compute iconVal as follows
+        // if value of icon property is of type string, use that
+        // else use initial value specified in properties of this element
+        var iconVal = this._isString(this.icon) ? this.icon : this.properties.icon.value;
+
+        this.iconset = this.computeIconset(iconVal);
+        var iconsetElement = this._getIconsetElement(iconVal);
+
+        if (iconsetElement) iconsetElement.applyIcon(this.root, this._getIconName(iconVal), this.theme);
       },
 
       srcChanged: function() {
