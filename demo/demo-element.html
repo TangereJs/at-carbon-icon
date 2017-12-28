@@ -1,0 +1,104 @@
+<link rel="import" href="../../tangere/tangere.html" />
+<link rel="import" href="../at-carbon-icon.html" />
+
+<dom-module id="demo-element">
+  <template>
+    <style>
+       :host {
+        display: block;
+        box-sizing: border-box;
+      }
+
+      .demo-container {
+        margin-top: 16px;
+        padding: 8px;
+        border: 1px solid purple;
+      }
+
+      .inline {
+        display: inline-block;
+      }
+
+      .parent {
+        display: flex;
+        flex-direction: row;
+        box-sizing: border-box;
+        padding: 8px;
+      }
+
+      .box-shadow {
+        /*border-radius: 3px;*/
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 5px 0 rgba(0, 0, 0, 0.12),
+                    0 3px 1px -2px rgba(0, 0, 0, 0.2);
+      }
+
+      .parent:active {
+        box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14),
+                    0 1px 10px 0 rgba(0, 0, 0, 0.12),
+                    0 2px 4px -1px rgba(0, 0, 0, 0.4);        
+      }      
+
+      .button-label {
+        flex: 1;
+      }
+    </style>
+
+    <div class="demo-container">
+      <h4>Icon without box-shadow</h4>
+      <at-carbon-icon icon="now:wrench"></at-carbon-icon>
+    </div>
+
+    <div class="demo-container">
+      <h4>Icon with box-shadow</h4>
+      <at-carbon-icon icon="now:arrow-left" class="box-shadow"></at-carbon-icon>
+    </div>
+
+    <div class="demo-container">
+      <h4>Icon in div parent without box-shadow set on parent</h4>
+      <div class="parent">
+        <at-carbon-icon icon="now:wrench"></at-carbon-icon>
+        <span>This is a label</span>
+      </div>
+    </div>
+
+    <div class="demo-container">
+      <h4>Icon in div parent with box-shadow set on parent</h4>
+      <div class="parent box-shadow">
+        <at-carbon-icon icon="now:wrench"></at-carbon-icon>
+        <span class="button-label">This is a label</span>
+      </div>
+    </div>
+
+    <div class="demo-container inline">
+      <h4>Icon in div parent without box-shadow set on parent</h4>
+      <div class="parent">
+        <at-carbon-icon icon="now:wrench"></at-carbon-icon>
+        <span>This is a label</span>
+      </div>
+    </div>
+
+    <div class="demo-container inline">
+      <h4>Icon in div parent with box-shadow set on parent</h4>
+      <div class="parent box-shadow">
+        <at-carbon-icon icon="now:wrench"></at-carbon-icon>
+        <span class="button-label">This is a label</span>
+      </div>
+    </div>
+
+    <div hidden><content></content></div>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: "demo-element",
+    properties: {
+
+    },
+    ready: function() {
+      if (this.textContent && this.textContent !== "") {
+        console.log(this.textContent);
+      }
+    }
+  });
+</script>
