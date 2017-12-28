@@ -1,0 +1,185 @@
+<!doctype html>
+<html>
+  <head>
+  <meta charset="UTF-8">
+  <title>at-carbon-icon tests</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../at-carbon-icon.html">
+  <link rel="import" href="../../iron-test-helpers/iron-test-helpers.html" />
+  </head>
+  <body>
+    <test-fixture id="propertyTest">
+      <template>
+        <at-carbon-icon></at-carbon-icon>
+      </template>
+    </test-fixture>
+
+  <script>
+    suite("ui interaction tests", function() { 
+      
+      var initialSrcValue = '';
+      var initialIconValue = '';
+      var intiialThemeValue = '';
+
+      function assertInitialState(elt) {
+        assert.equal(elt.src, initialSrcValue);
+        assert.equal(elt.icon, initialIconValue);
+        assert.equal(elt.theme, intiialThemeValue);
+
+        // first \n is for new line after <template>
+        // next four space chars are space before open <style> tag
+        // second \n is for new line after closing </style> tag
+        // next two space chars are space before closing </template> tag
+        var innerHTMlVal = '\n    \n  ';
+
+        // elt.root is empty
+        assert.equal(Polymer.dom(elt.root).innerHTML, innerHTMlVal);
+
+        // elt root will have one text node as child
+        var childNodes = Polymer.dom(elt.root).childNodes;
+        assert.equal(childNodes.length, 1);
+
+        var textNode = childNodes[0];
+        // assert that node is text node and that node value is inner html whitespace
+        assert.equal(textNode.nodeType, Node.TEXT_NODE);
+        assert.equal(textNode.nodeValue, innerHTMlVal);
+      }
+
+      var svgInnerHTML = {
+        "now:about": '<g class="style-scope at-carbon-icon"><path d="M 25 1 C 11.22381 1 0 10.877813 0 23.1875 C 0 29.234336 2.7741064 34.664267 7.21875 38.6875 C 6.5464144 40.762788 5.0487444 42.397292 3.53125 43.65625 C 2.7143972 44.333935 1.9319184 44.910401 1.3125 45.46875 C 1.0027908 45.747924 0.7220811 46.026787 0.5 46.375 C 0.2779189 46.723213 0.0767149 47.217368 0.21875 47.75 L 0.34375 48.15625 L 0.6875 48.375 C 1.9755187 49.115611 3.5808198 49.244655 5.3125 49.125 C 7.0441802 49.005345 8.9279179 48.605014 10.78125 48.09375 C 14.373593 47.102759 17.748059 45.68721 19.53125 44.90625 C 21.289332 45.273318 23.054265 45.5 24.90625 45.5 C 38.68244 45.5 49.90625 35.622187 49.90625 23.3125 C 49.90625 11.008511 38.781203 1 25 1 z M 25 3 C 37.818797 3 47.90625 12.216489 47.90625 23.3125 C 47.90625 34.402813 37.73006 43.5 24.90625 43.5 C 23.076425 43.5 21.356093 43.322187 19.625 42.9375 L 19.28125 42.84375 L 19 43 C 17.327383 43.737919 13.793336 45.178778 10.25 46.15625 C 8.4783321 46.644986 6.7120698 47.019655 5.1875 47.125 C 4.1660382 47.195581 3.5392212 46.951204 2.84375 46.78125 C 3.3382895 46.354678 4.0183666 45.846337 4.8125 45.1875 C 6.5537944 43.742871 8.643593 41.73189 9.375 38.75 L 9.53125 38.125 L 9.03125 37.75 C 4.6258715 34.015005 2 28.876389 2 23.1875 C 2 12.097187 12.17619 3 25 3 z M 23.8125 12.8125 C 23.5125 12.8125 23.40625 12.9875 23.40625 13.1875 L 23.40625 15.8125 C 23.40625 16.1125 23.6125 16.1875 23.8125 16.1875 L 26.1875 16.1875 C 26.4875 16.1875 26.59375 16.0125 26.59375 15.8125 L 26.59375 13.1875 C 26.59375 12.8875 26.3875 12.8125 26.1875 12.8125 L 23.8125 12.8125 z M 23.90625 20.09375 C 23.60625 20.09375 23.5 20.3 23.5 20.5 L 23.5 33.90625 C 23.5 34.20625 23.70625 34.3125 23.90625 34.3125 L 23.90625 34.40625 L 26.1875 34.40625 C 26.4875 34.40625 26.59375 34.2 26.59375 34 L 26.59375 20.5 C 26.59375 20.2 26.3875 20.09375 26.1875 20.09375 L 23.90625 20.09375 z" class="style-scope at-carbon-icon"></path></g>',
+        "now:about-filled": '<g class="style-scope at-carbon-icon"><path d="M25,1C11.215,1,0,10.959,0,23.2c0,5.915,2.573,11.443,7.262,15.635c-0.866,2.561-3.089,4.32-4.744,5.63 c-1.516,1.199-2.611,2.066-2.284,3.293l0.107,0.401l0.36,0.208c0.907,0.521,2.121,0.785,3.609,0.785 c4.946,0,12.063-2.841,15.195-4.206c1.781,0.372,3.55,0.554,5.395,0.554c13.786,0,25-9.959,25-22.2C49.9,11.003,38.73,1,25,1z M26.6,34c0,0.2-0.1,0.4-0.399,0.4h-2.3V34.3c-0.2,0-0.4-0.1-0.4-0.399V20.5c0-0.2,0.1-0.4,0.4-0.4h2.3c0.2,0,0.399,0.1,0.399,0.4 V34z M26.6,15.8c0,0.2-0.1,0.4-0.399,0.4h-2.4c-0.2,0-0.4-0.1-0.4-0.4v-2.6c0-0.2,0.1-0.4,0.4-0.4h2.4c0.2,0,0.399,0.1,0.399,0.4 V15.8z" class="style-scope at-carbon-icon"></path></g>'
+      }
+
+      function assertEltState(elt, iconName, srcVal) {
+        assert.equal(elt.src, srcVal);
+        assert.equal(elt.icon, iconName);
+        assert.equal(elt.theme, intiialThemeValue);
+
+        if (iconName) {
+          // elt root will have one text node as child
+          var childNodes = Polymer.dom(elt.root).childNodes;
+          assert.equal(childNodes.length, 2);
+
+          var svgNode = childNodes[0];
+          assert.equal(svgNode.nodeType, Node.ELEMENT_NODE);
+          assert.equal(svgNode.nodeName, "svg");
+          assert.equal(svgNode.nodeValue, null);
+          assert.equal(svgNode.innerHTML, svgInnerHTML[iconName]);
+
+          var innerHTMlVal = '\n    \n  ';
+          var textNode = childNodes[1];
+          // assert that node is text node and that node value is inner html whitespace
+          assert.equal(textNode.nodeType, Node.TEXT_NODE);
+          assert.equal(textNode.nodeValue, innerHTMlVal); 
+        
+        } else if (srcVal) {
+          // elt root will have one text node as child
+          var childNodes = Polymer.dom(elt.root).childNodes;
+          assert.equal(childNodes.length, 2);
+
+          var innerHTMlVal = '\n    \n  ';
+          var textNode = childNodes[0];
+          // assert that node is text node and that node value is inner html whitespace
+          assert.equal(textNode.nodeType, Node.TEXT_NODE);
+          assert.equal(textNode.nodeValue, innerHTMlVal); 
+          
+          var imgNode = childNodes[1];
+          assert.equal(imgNode.nodeType, Node.ELEMENT_NODE);
+          assert.equal(imgNode.nodeName, "IMG");
+          assert.equal(imgNode.nodeValue, null);
+          var href = window.location.href;
+          href = href.replace("uiinteraction.html", srcVal);
+          assert.equal(imgNode.src, href);
+        
+        } else {
+          // first \n is for new line after <template>
+          // next four space chars are space before open <style> tag
+          // second \n is for new line after closing </style> tag
+          // next two space chars are space before closing </template> tag
+          var innerHTMlVal = '\n    \n  ';
+
+          // elt.root is empty
+          assert.equal(Polymer.dom(elt.root).innerHTML, innerHTMlVal);
+
+          // elt root will have one text node as child
+          var childNodes = Polymer.dom(elt.root).childNodes;
+          assert.equal(childNodes.length, 1);
+
+          var textNode = childNodes[0];
+          // assert that node is text node and that node value is inner html whitespace
+          assert.equal(textNode.nodeType, Node.TEXT_NODE);
+          assert.equal(textNode.nodeValue, innerHTMlVal);
+        }
+
+      }
+
+      test("display icon by setting icon property", function() { 
+        var elt = fixture("propertyTest");
+        
+        assertInitialState(elt);
+
+        // setting a different icon changes the icon
+        var newIcon = "now:about";
+        elt.icon = newIcon;
+        assertEltState(elt, newIcon, "");
+        
+        newIcon = "now:about-filled";
+        elt.icon = newIcon;
+        assertEltState(elt, newIcon, "");
+
+        newIcon = "";
+        elt.icon = newIcon;
+        assertInitialState(elt);
+      });
+
+      test("display icon by setting src property", function() {
+        var elt = fixture("propertyTest");
+        
+        assertInitialState(elt);
+
+        // setting a different src changes the icon
+        var newSrc = "icon1.ico";
+        elt.src = newSrc;
+        assertEltState(elt, "", newSrc);
+        
+        newSrc = "icon2.ico";
+        elt.src = newSrc;
+        assertEltState(elt, "", newSrc);
+
+        newSrc = "";
+        elt.src = newSrc;
+        assertInitialState(elt);
+      });
+
+      test("display icon by setting both icon and src property", function() { 
+        var elt = fixture("propertyTest");
+        
+        assertInitialState(elt);
+
+        // setting a different icon changes the icon
+        var newIcon = "now:about";
+        var newSrc = "icon1.ico";
+        elt.icon = newIcon;
+        elt.src = newSrc;
+        assertEltState(elt, newIcon, newSrc);
+          
+        // setting the icon to empty should display the icon from the src
+        elt.icon = "";
+        assertEltState(elt, "", newSrc);
+
+        // setting the src to empty should remove all icons from core-icon
+        elt.src = "";
+        assertEltState(elt, "", "");
+
+        // setting the icon prop displays the svg icon
+        newIcon = "now:about-filled";
+        elt.icon = newIcon;
+        assertEltState(elt, newIcon, "");
+
+      });      
+    });
+  </script>
+  </body>
+</html>

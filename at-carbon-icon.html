@@ -3,7 +3,6 @@
 <link rel="import" href="now-icons.html">
 
 <dom-module id="at-carbon-icon">
-
   <template>
     <style>
       :host {
@@ -17,11 +16,6 @@
         height: 24px;
       }
 
-      div {
-        display: block;
-        position: relative;
-      }
-
       svg {
         display: block;
         width: 24px;
@@ -32,8 +26,6 @@
         width: 100%;
       }
     </style>
-
-    <content></content>
   </template>
 </dom-module>
 
@@ -47,49 +39,56 @@
       properties: {
         src: {
           type: String,
-          value: '',
-          observer: 'srcChanged'
+          value: ''
         },
         icon: {
           type: String,
-          value: '',
-          observer: 'updateIcon'
+          value: ''
         },
         theme: {
           type: String,
-          value: '',
-          observer: 'updateIcon'
+          value: ''
         }
       },
+
+      observers: [
+        '_renderIcon(icon, theme, src)'
+      ],
+
       _meta: Polymer.Base.create('iron-meta', { type: 'iconset' }),
-      srcImgElement: null,
-      iconset: '',
+      _srcImgElement: null,
 
-      _getIconsetElement: function(icon) {
-        var iconsetElement;
-
-        if (icon) {
-          iconsetElement = this._meta.byKey(
-            this.computeIconset(icon)
-          );
+      _renderIcon: function(icon, theme, src) {
+        if (!icon) {
+          // remove svg element
+          var svgElt = Polymer.dom(this.root).querySelector('svg');
+          if (svgElt) { 
+            Polymer.dom(this.root).removeChild(svgElt);
+          }
+          // NOTE(ij): iron-iconset-svg sets the _svgIcon on the root
+          // since svg tag is removed from this.root above, we need to set _svgIcon to null ourselves to avoid DOM exception(s)
+          this.root._svgIcon = null;
         }
 
-        return iconsetElement;
-      },
-
-      _getIconName: function(icon) {
-        if (icon) {
-          return icon.split(':').pop();
+        if (!src) {
+          // remove img element
+          var imgElt = Polymer.dom(this.root).querySelector('img');
+          if (imgElt) {
+            Polymer.dom(this.root).removeChild(imgElt);
+          }
         }
 
-        return '';
+        if (!icon && !src) return;
+
+        if (icon) {
+          this._renderSvgIcon(icon, theme);
+
+        } else {
+          this._renderSrcIcon(src);
+        }
       },
 
-      get usesSrcAttribute() {
-        return !this.icon && this.src;
-      },
-
-      computeIconset: function(icon) {
+      _computeIconset: function(icon) {
         var iconset;
 
         if (icon && icon.indexOf(':') > -1) {
@@ -99,43 +98,44 @@
         return iconset || DEFAULT_ICONSET;
       },
 
+      _computeIconsetElement: function(icon) {
+        var iconsetElement = this._meta.byKey(
+          this._computeIconset(icon)
+        );
+
+        return iconsetElement;
+      },
+
+      _computeIconName: function(icon) {
+        if (icon) {
+          return icon.split(':').pop();
+        }
+
+        return '';
+      },
+
       _isString: function(obj) {
         return Object.prototype.toString.apply(obj) === "[object String]";
       },
 
-      updateIcon: function() {
-        if (this.usesSrcAttribute) {
-          return;
-        }
-
+      _renderSvgIcon: function(icon, theme) {
         // compute iconVal as follows
         // if value of icon property is of type string, use that
         // else use initial value specified in properties of this element
-        var iconVal = this._isString(this.icon) ? this.icon : this.properties.icon.value;
+        var iconVal = this._isString(icon) ? icon : this.properties.icon.value;
 
-        this.iconset = this.computeIconset(iconVal);
-        var iconsetElement = this._getIconsetElement(iconVal);
-
-        if (iconsetElement) iconsetElement.applyIcon(this.root, this._getIconName(iconVal), this.theme);
+        var iconsetElement = this._computeIconsetElement(iconVal);
+        var iconName = this._computeIconName(iconVal)
+        iconsetElement.applyIcon(this.root, iconName, theme);
       },
 
-      srcChanged: function() {
-        var currentIconChild;
-
-        if (!this.usesSrcAttribute) {
-          return;
+      _renderSrcIcon: function() {
+        if (!this._srcImgElement) {
+          this._srcImgElement = document.createElement('img');
         }
 
-        if (currentIconChild = Polymer.dom(this.root).querySelector('div')) {
-          Polymer.dom(this.root).removeChild(currentIconChild);
-        }
-
-        if (!this.srcImgElement) {
-          this.srcImgElement = document.createElement('img');
-        }
-
-        this.srcImgElement.src = this.src;
-        Polymer.dom(this.root).appendChild(this.srcImgElement);
+        this._srcImgElement.src = this.src;
+        Polymer.dom(this.root).appendChild(this._srcImgElement);
       }
     });
   })();
