@@ -31,41 +31,11 @@
         assert.equal(elt.icon, initialIconValue);
         assert.equal(elt.theme, intiialThemeValue);
 
-        // first \n is for new line after <template>
-        // next four space chars are space before open <style> tag
-        // second \n is for new line after closing </style> tag
-        // next two space chars are space before closing </template> tag
-        var innerHTMlVal = '\n    \n  ';
-
-        // elt.root is empty
-        if (!elt.shadowRoot) {
-          assert.equal(Polymer.dom(elt.root).innerHTML, innerHTMlVal);
-
-          // elt root will have one text node as child
-          var childNodes = Polymer.dom(elt.root).childNodes;
-          assert.equal(childNodes.length, 1);
-
-          var textNode = childNodes[0];
-          // assert that node is text node and that node value is inner html whitespace
-          assert.equal(textNode.nodeType, Node.TEXT_NODE);
-          assert.equal(textNode.nodeValue, innerHTMlVal);
-
-        } else {
-          // elt root will have style node and text node as children
-          var childNodes = Polymer.dom(elt.root).childNodes;
-          assert.equal(childNodes.length, 2);
-
-          var styleNode = childNodes[0];
-          // assert that node is text node and that node value is inner html whitespace
-          assert.equal(styleNode.nodeType, Node.ELEMENT_NODE);
-          assert.equal(styleNode.nodeName, "STYLE");
-
-          var textNode = childNodes[1];
-          // assert that node is text node and that node value is inner html whitespace
-          assert.equal(textNode.nodeType, Node.TEXT_NODE);
-          assert.equal(textNode.nodeValue, innerHTMlVal);
-        }
-
+        // confirm that initially no icon is rendered
+        var svgTags = Polymer.dom(elt.root).querySelectorAll('svg');
+        assert.equal(svgTags.length, 0);
+        var imgNodes = Polymer.dom(elt.root).querySelectorAll('img');
+        assert.equal(imgNodes.length, 0);
       }
 
       var svgInnerHTML = {
@@ -90,39 +60,19 @@
         assert.equal(elt.theme, intiialThemeValue);
 
         if (iconName) {
+          // confirm that initially no icon is rendered
+          var svgTags = Polymer.dom(elt.root).querySelectorAll('svg');
+          assert.equal(svgTags.length, 1);
+          
+          var svgNode = svgTags[0];
+          assert.equal(svgNode.nodeType, Node.ELEMENT_NODE);
+          assert.equal(svgNode.nodeName, "svg");
+          assert.equal(svgNode.nodeValue, null);
+          
           if (elt.shadowRoot) {
-            // elt root will have one text node as child
-            var childNodes = Polymer.dom(elt.root).childNodes;
-            assert.equal(childNodes.length, 3);
-
-            var svgNode = childNodes[0];
-            assert.equal(svgNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(svgNode.nodeName, "svg");
-            assert.equal(svgNode.nodeValue, null);
             assert.equal(svgNode.innerHTML, svgInnerHTMLShadow[iconName]);
 
-            var styleNode = childNodes[1];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(styleNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(styleNode.nodeName, "STYLE");
-
-
-            var innerHTMlVal = '\n    \n  ';
-            var textNode = childNodes[2];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(textNode.nodeType, Node.TEXT_NODE);
-            assert.equal(textNode.nodeValue, innerHTMlVal);
-
           } else {
-            // elt root will have one text node as child
-            var childNodes = Polymer.dom(elt.root).childNodes;
-            assert.equal(childNodes.length, 2);
-
-            var svgNode = childNodes[0];
-            assert.equal(svgNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(svgNode.nodeName, "svg");
-            assert.equal(svgNode.nodeValue, null);
-
             // if browser is IE11 svgNode innerHTML is undefined, hence assertion is not possible
             if (userAgent.browser.name === "IE") {
               var skip = undefined;
@@ -134,99 +84,29 @@
             } else {
               assert.equal(svgNode.innerHTML, svgInnerHTML[iconName]);
             }
-
-            var innerHTMlVal = '\n    \n  ';
-            var textNode = childNodes[1];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(textNode.nodeType, Node.TEXT_NODE);
-            assert.equal(textNode.nodeValue, innerHTMlVal); 
           }
         
         } else if (srcVal) {
-          if (elt.shadowRoot) {
-            // elt root will have one text node as child
-            var childNodes = Polymer.dom(elt.root).childNodes;
-            assert.equal(childNodes.length, 3);
+          var imgNodes = Polymer.dom(elt.root).querySelectorAll('img');
+          assert.equal(imgNodes.length, 1);
 
-            var styleNode = childNodes[0];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(styleNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(styleNode.nodeName, "STYLE");
-
-            var innerHTMlVal = '\n    \n  ';
-            var textNode = childNodes[1];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(textNode.nodeType, Node.TEXT_NODE);
-            assert.equal(textNode.nodeValue, innerHTMlVal);
-
-            var imgNode = childNodes[2];
-            assert.equal(imgNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(imgNode.nodeName, "IMG");
-            assert.equal(imgNode.nodeValue, null);
-
-            var href = window.location.href;
-            href = href.replace("uiinteraction.html", srcVal);
-            href = href.replace("?dom=shadow", "");
-            assert.equal(imgNode.src, href);
-
-
-          } else {
-            // elt root will have one text node as child
-            var childNodes = Polymer.dom(elt.root).childNodes;
-            assert.equal(childNodes.length, 2);
-
-            var innerHTMlVal = '\n    \n  ';
-            var textNode = childNodes[0];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(textNode.nodeType, Node.TEXT_NODE);
-            assert.equal(textNode.nodeValue, innerHTMlVal); 
-            
-            var imgNode = childNodes[1];
-            assert.equal(imgNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(imgNode.nodeName, "IMG");
-            assert.equal(imgNode.nodeValue, null);
-            var href = window.location.href;
-            href = href.replace("uiinteraction.html", srcVal);
-            href = href.replace("?dom=shadow", "");
-            assert.equal(imgNode.src, href);
-          }
+          var imgNode = imgNodes[0];
+          assert.equal(imgNode.nodeType, Node.ELEMENT_NODE);
+          assert.equal(imgNode.nodeName, "IMG");
+          assert.equal(imgNode.nodeValue, null);
+          
+          var href = window.location.href;
+          href = href.replace("uiinteraction.html", srcVal);
+          href = href.replace("?dom=shadow", "");
+          assert.equal(imgNode.src, href);
         
         } else {
-          // first \n is for new line after <template>
-          // next four space chars are space before open <style> tag
-          // second \n is for new line after closing </style> tag
-          // next two space chars are space before closing </template> tag
-          var innerHTMlVal = '\n    \n  ';
-
           // elt.root is empty
-          if (elt.shadowRoot) {
-            // elt root will have style node and text node as children
-            var childNodes = Polymer.dom(elt.root).childNodes;
-            assert.equal(childNodes.length, 2);
-
-            var styleNode = childNodes[0];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(styleNode.nodeType, Node.ELEMENT_NODE);
-            assert.equal(styleNode.nodeName, "STYLE");
-
-            var textNode = childNodes[1];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(textNode.nodeType, Node.TEXT_NODE);
-            assert.equal(textNode.nodeValue, innerHTMlVal);
-          
-          } else {
-            // elt root will have one text node as child
-            var childNodes = Polymer.dom(elt.root).childNodes;
-            assert.equal(childNodes.length, 1);
-
-            var textNode = childNodes[0];
-            // assert that node is text node and that node value is inner html whitespace
-            assert.equal(textNode.nodeType, Node.TEXT_NODE);
-            assert.equal(textNode.nodeValue, innerHTMlVal);
-          }
-
+          var svgTags = Polymer.dom(elt.root).querySelectorAll('svg');
+          assert.equal(svgTags.length, 0);
+          var imgNodes = Polymer.dom(elt.root).querySelectorAll('img');
+          assert.equal(imgNodes.length, 0);
         }
-
       }
 
       test("display icon by setting icon property", function() { 
