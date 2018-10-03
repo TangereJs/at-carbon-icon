@@ -69,7 +69,12 @@
           assert.equal(svgNode.nodeName, "svg");
           assert.equal(svgNode.nodeValue, null);
           
-          if (elt.shadowRoot) {
+          // 
+          // Firefox reports that shadowRoot exists but in reality its ShadyRoot
+          // the shadyRoot is detected by checking that Ga property has value of ShadyRoot
+          // We detect chrome by testing that Ga property is undefined
+          // 
+          if (elt.shadowRoot && elt.shadowRoot.Ga == undefined) {
             assert.equal(svgNode.innerHTML, svgInnerHTMLShadow[iconName]);
 
           } else {
